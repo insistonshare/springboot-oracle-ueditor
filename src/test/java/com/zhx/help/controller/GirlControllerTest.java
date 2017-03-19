@@ -4,10 +4,11 @@ import com.zhx.help.dao.GirlRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
@@ -32,12 +33,15 @@ public class GirlControllerTest extends MockMvcResultHandlers {
     //模拟对象
     private MockMvc mvc;
 
-    @MockBean
+    @InjectMocks
+    private GirlController girlController;
+
+    @Mock
     private GirlRepository girlRepository;
 
     @Before
     public void setUp() {
-        mvc = MockMvcBuilders.standaloneSetup(new GirlController()).build();
+        mvc = MockMvcBuilders.standaloneSetup(girlController).build();
     }
 
     @Test

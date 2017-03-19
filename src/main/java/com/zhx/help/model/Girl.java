@@ -1,9 +1,6 @@
 package com.zhx.help.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Created by 11 on 2017/3/17.
@@ -15,6 +12,9 @@ public class Girl {
     private Integer id;
     private String CupSize;
     private Integer age;
+    @Lob
+    private String content;
+
     public Girl(){
     }
     public Integer getId() {
@@ -37,5 +37,14 @@ public class Girl {
     public Girl setAge(Integer age) {
         this.age = age;
         return this;
+    }
+
+    @Lob
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }
