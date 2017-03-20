@@ -29,10 +29,10 @@ public class HelpInfoRepositoryTest {
     @Test
     public void addHelpInfo() throws Exception {
         HelpInfo helpInfo = new HelpInfo();
-        helpInfo.setMenuId("002");
+        helpInfo.setMenuId("005");
         helpInfo.setCreateTime(new Date());
         helpInfo.setUpdateTime(helpInfo.getCreateTime());
-        String s = readFileAsString("C:\\Users\\Administrator\\Desktop\\33.sql");
+        String s = readFileAsString("C:\\Users\\11\\Desktop\\menu.sql");
         helpInfo.setContent(s);
         helpInfo = helpInfoRepository.save(helpInfo);
         Assert.assertNotNull(helpInfo.getId());

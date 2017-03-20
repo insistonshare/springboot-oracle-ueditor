@@ -30,22 +30,18 @@ public class ModelMenuRepositoryTest {
     }
 
     @Test
-    public void saveModelMenu() throws Exception{
-        ModelMenu modelMenu = new ModelMenu();
-        modelMenu.setParentId(1);
-        modelMenu.setText("你好");
-        modelMenuRepository.save(modelMenu);
-    }
-
-    @Test
     public void findAll() throws Exception{
         List<ModelMenu> modelMenus = modelMenuRepository.findAll();
-        Assert.assertTrue(modelMenus.size()==11);
+        Assert.assertTrue(modelMenus.size()==449);
     }
 
     @Test
     public void findAllByOrderById() throws Exception{
         List<ModelMenu> modelMenus = modelMenuRepository.findAllByOrderById();
-        Assert.assertTrue(modelMenus.get(0).getId()==1);
+        Assert.assertTrue(modelMenus.get(0).getId()==0);
+    }
+
+    @Test
+    public void menuInfoList() throws Exception{
     }
 }

@@ -15,8 +15,13 @@ public class HelpInfo {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String menuId;
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
+    @Column(name="CONTENT",columnDefinition="CLOB", nullable=true)
     private String content;
+    @Temporal(TemporalType.TIME)
     private Date createTime;
+    @Temporal(TemporalType.TIME)
     private Date updateTime;
 
     public Integer getId() {

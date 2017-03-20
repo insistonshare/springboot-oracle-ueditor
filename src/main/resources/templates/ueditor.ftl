@@ -2,22 +2,30 @@
 <head>
     <title>完整demo</title>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+    <script src="${request.contextPath}/scripts/jquery-1.6.2.min.js" type="text/javascript"></script>
+    <link href="${request.contextPath}/scripts/miniui/themes/default/miniui.css" rel="stylesheet" type="text/css"/>
+    <script src="${request.contextPath}/scripts/miniui/miniui.js" type="text/javascript"></script>
+    <script src="${request.contextPath}/scripts/boot.js" type="text/javascript"></script>
     <script type="text/javascript" charset="utf-8" src="${request.contextPath}/ueditor/ueditor.config.js"></script>
-    <script type="text/javascript" charset="utf-8" src="${request.contextPath}/ueditor/editor_api.js"> </script>
+    <script type="text/javascript" charset="utf-8" src="${request.contextPath}/ueditor/editor_api.js"></script>
     <!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
     <!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
     <script type="text/javascript" charset="utf-8" src="${request.contextPath}/ueditor/lang/zh-cn/zh-cn.js"></script>
 
     <style type="text/css">
-        div{
-            width:100%;
+        div {
+            width: 100%;
         }
     </style>
 </head>
 <body>
-当前menudId为:${menuId!''}
-<div>
+当前menudId为:<span id="menuId">${menuId!''}</span><br/>
+<a class="mini-button" onclick="onClick" id="edit">编辑</a>
+<a class="mini-button" onclick="onClick" id="save_view">保存并预览</a>
+<div id="editor_edit">
     <script id="editor" type="text/plain" style="width:1024px;height:500px;"></script>
+</div>
+<div id="editor_view">
 </div>
 <div id="btns">
     <div>
@@ -30,7 +38,7 @@
         <button onclick="hasContent()">判断是否有内容</button>
         <button onclick="setFocus()">使编辑器获得焦点</button>
         <button onmousedown="isFocus(event)">编辑器是否获得焦点</button>
-        <button onmousedown="setblur(event)" >编辑器失去焦点</button>
+        <button onmousedown="setblur(event)">编辑器失去焦点</button>
 
     </div>
     <div>
@@ -42,32 +50,33 @@
         <button onclick=" UE.getEditor('editor').setShow()">显示编辑器</button>
         <button onclick=" UE.getEditor('editor').setHeight(300)">设置高度为300默认关闭了自动长高</button>
     </div>
-
     <div>
-        <button onclick="getLocalData()" >获取草稿箱内容</button>
-        <button onclick="clearLocalData()" >清空草稿箱</button>
+        <button onclick="getLocalData()">获取草稿箱内容</button>
+        <button onclick="clearLocalData()">清空草稿箱</button>
     </div>
 
-</div>
-<div>
-    <button onclick="createEditor()">
-        创建编辑器</button>
-    <button onclick="deleteEditor()">
-        删除编辑器</button>
+    <div>
+        <button onclick="createEditor()">
+            创建编辑器
+        </button>
+        <button onclick="deleteEditor()">
+            删除编辑器
+        </button>
+    </div>
 </div>
 
 <script type="text/javascript">
-
+//----------------------------------------------------------------------------------------------------------
     //实例化编辑器
     //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
     var ue = UE.getEditor('editor');
 
 
-    function isFocus(e){
+    function isFocus(e) {
         alert(UE.getEditor('editor').isFocus());
         UE.dom.domUtils.preventDefault(e)
     }
-    function setblur(e){
+    function setblur(e) {
         UE.getEditor('editor').blur();
         UE.dom.domUtils.preventDefault(e)
     }
@@ -85,10 +94,11 @@
     }
     function getContent() {
         var arr = [];
-        arr.push("使用editor.getContent()方法可以获得编辑器的内容");
-        arr.push("内容为：");
+//        arr.push("使用editor.getContent()方法可以获得编辑器的内容");
+//        arr.push("内容为：");
+        console.log(UE.getEditor('editor').getContent())
         arr.push(UE.getEditor('editor').getContent());
-        alert(arr.join("\n"));
+        return arr.join("\n");
     }
     function getPlainTxt() {
         var arr = [];
@@ -100,8 +110,8 @@
     function setContent(isAppendTo) {
         var arr = [];
         arr.push("使用editor.setContent('欢迎使用ueditor')方法可以设置编辑器的内容");
-        UE.getEditor('editor').setContent('欢迎使用ueditor', isAppendTo);
-        alert(arr.join("\n"));
+        UE.getEditor('editor').setContent('', isAppendTo);
+//        alert(arr.join("\n"));
     }
     function setDisabled() {
         UE.getEditor('editor').setDisabled('fullscreen');
@@ -161,13 +171,68 @@
         }
     }
 
-    function getLocalData () {
-        alert(UE.getEditor('editor').execCommand( "getlocaldata" ));
+    function getLocalData() {
+        alert(UE.getEditor('editor').execCommand("getlocaldata"));
     }
 
-    function clearLocalData () {
-        UE.getEditor('editor').execCommand( "clearlocaldata" );
-        alert("已清空草稿箱")
+    function clearLocalData() {
+//        UE.getEditor('editor').execCommand("clearlocaldata");
+//        console.log("已清空草稿箱")
+        UE.getEditor('editor').execCommand('insertHtml', null);
+    }
+//----------------------------------------------------------------------------------------------------------
+    $(function () {
+        $("#btns").hide();
+        //默认加载该菜单帮助信息
+        $.get("${request.contextPath}/helpInfo/" + $("#menuId").html(), function (data) {
+            if (data != null) {
+                $("#editor_edit").hide();
+                $("#editor_view").show();
+                $("#save_view").hide();
+                $("#edit").show();
+                $("#editor_view").html(data.content);
+            } else {
+                $("#editor_edit").show();
+                $("#editor_view").hide();
+                $("#save_view").show();
+                $("#edit").hide();
+            }
+        }, "json");
+    });
+
+    mini.parse();
+    function onClick(e) {
+        var button = e.sender;
+        var text = button.getText();
+        if ("保存并预览" === text) {
+            var content = ue.getContent();
+            $.ajax({
+                type: "POST",
+                url: "${request.contextPath}/helpInfo",
+                contentType: "application/json", //必须有
+                dataType: "json", //表示返回值类型，不必须
+                data: JSON.stringify({'content': content, 'menuId': $("#menuId").text()}),  //相当于 //data: "{'str1':'foovalue', 'str2':'barvalue'}",
+                success: function (data) {
+                    $("#editor_view").html("");
+                    $("#editor_view").html(data.content);
+                }
+            });
+            $("#editor_edit").hide();
+            $("#editor_view").show();
+            $("#save_view").hide();
+            $("#edit").show();
+        } else if ("编辑" === text) {
+            setContent();
+            $.get("${request.contextPath}/helpInfo/" + $("#menuId").html(), function (data) {
+                UE.getEditor('editor').execCommand('insertHtml', data.content);
+            }, "json");
+            $("#editor_edit").show();
+            $("#editor_view").hide();
+            $("#save_view").show();
+            $("#edit").hide();
+        } else {
+            console.log("error");
+        }
     }
 </script>
 </body>

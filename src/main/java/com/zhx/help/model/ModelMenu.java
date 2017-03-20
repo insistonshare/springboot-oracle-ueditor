@@ -1,6 +1,7 @@
 package com.zhx.help.model;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * Created on 2017/3/19 0019.
@@ -12,12 +13,35 @@ import javax.persistence.*;
 public class ModelMenu {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "menu_id")
     private Integer id;
+    @Column(name = "uplevel")
     private Integer parentId;
-    @Column(name = "name")
+    @Column(name = "menu_name")
     private String text;
-    @Column(name = "sort_order")
-    private Integer level;
+//    @Column(name = "level")
+//    private Integer level;
+//    @Column(name = "url")
+//    private String url;
+//    @Column(name = "sort")
+//    private Integer sort;
+//    @Column(name = "state")
+//    private String state;
+//    @Column(name = "create_id")
+//    private String createId;
+//    @Column(name = "create_time")
+//    @Temporal(TemporalType.DATE)
+//    private Date createTime;
+//    @Column(name = "memo")
+//    private String memo;
+//    @Column(name = "other_power_url")
+//    private String otherPowerUrl;
+//    @Column(name = "param_key")
+//    private String paramKey;
+//    @Column(name = "param_val")
+//    private String paramVal;
+//    @Column(name = "mark")
+//    private String mark;
 
     public Integer getId() {
         return id;
@@ -41,14 +65,6 @@ public class ModelMenu {
 
     public void setText(String text) {
         this.text = text;
-    }
-
-    public Integer getLevel() {
-        return level;
-    }
-
-    public void setLevel(Integer level) {
-        this.level = level;
     }
 
     /**

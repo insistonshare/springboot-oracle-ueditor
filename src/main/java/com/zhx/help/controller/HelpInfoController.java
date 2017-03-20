@@ -1,11 +1,9 @@
 package com.zhx.help.controller;
 
-import com.zhx.help.dao.HelpInfoRepository;
 import com.zhx.help.model.HelpInfo;
+import com.zhx.help.service.HelpInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created on 2017/3/18 0018.
@@ -17,12 +15,27 @@ import org.springframework.web.bind.annotation.RestController;
 public class HelpInfoController {
 
     @Autowired
-    HelpInfoRepository helpInfoRepository;
+    HelpInfoService helpInfoService;
 
-    //查询一个女生
+    /**
+     * 根据menuId 查询
+     *
+     * @param menuId
+     * @return
+     */
     @GetMapping(value = "/helpInfo/{menuId}")
-    public HelpInfo getHelpInfo(@PathVariable("menuId")String menuId){
-        return helpInfoRepository.findByMenuId(menuId);
+    public HelpInfo getHelpInfo(@PathVariable("menuId") String menuId) {
+        return helpInfoService.findByMenuId(menuId);
+    }
+
+    /**
+     * 新增或更新
+     *
+     * @param helpInfo
+     */
+    @PostMapping(value = "/helpInfo")
+    public HelpInfo saveHelpInfo(@RequestBody HelpInfo helpInfo) {
+        return helpInfoService.saveOrUpdateHelpInfo(helpInfo);
     }
 
 }

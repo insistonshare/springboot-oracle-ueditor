@@ -23,6 +23,7 @@ public class HelpInfoServiceImpl implements HelpInfoService {
 
     @Override
     public void saveHelpInfo(HelpInfo helpInfo) {
+        HelpInfo info = this.findByMenuId(helpInfo.getMenuId());
         helpInfo.setCreateTime(new Date());
         helpInfo.setUpdateTime(helpInfo.getCreateTime());
         helpInfoRepository.save(helpInfo);
@@ -34,5 +35,27 @@ public class HelpInfoServiceImpl implements HelpInfoService {
         helpInfo.setContent(content);
         helpInfo.setUpdateTime(new Date());
         helpInfoRepository.save(helpInfo);
+    }
+
+    @Override
+    public HelpInfo findByMenuId(String menuId) {
+        return helpInfoRepository.findByMenuId(menuId);
+    }
+
+    @Override
+    public HelpInfo saveOrUpdateHelpInfo(HelpInfo helpInfo) {
+        String content = helpInfo.getContent();
+        String menuId = helpInfo.getMenuId();
+        HelpInfo info = helpInfoRepository.findByMenuId(menuId);
+        if (info != null) {
+            info.setUpdateTime(new Date());
+        } else {
+            info = new HelpInfo();
+            info.setCreateTime(new Date());
+            info.setUpdateTime(info.getCreateTime());
+            info.setMenuId(menuId);
+        }
+        info.setContent(content);
+        return helpInfoRepository.save(info);
     }
 }

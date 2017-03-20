@@ -5,6 +5,7 @@ import com.baidu.ueditor.define.BaseState;
 import com.baidu.ueditor.define.State;
 import com.zhx.help.uitls.RandomUtils;
 import com.zhx.help.uitls.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,16 +34,15 @@ public class UeditorController {
         return "ueditor";
     }
 
-
-
     @RequestMapping("config")
     @ResponseBody
     public String config(@RequestParam(value = "upfile", required = false) MultipartFile[] files, HttpServletRequest request, HttpServletResponse response) throws Exception {
         request.setCharacterEncoding("utf-8");
         response.setHeader("Content-Type", "text/html");
         response.setContentType("application/json");
+
         String basePath = "./target/classes/static/upload/";
-        String visitUrl = "/upload/";
+        String visitUrl = "http://"+request.getServerName()+":"+request.getServerPort()+"/upload/";
         if (files != null && files.length > 0) {
             for (MultipartFile file : files) {
 

@@ -12,5 +12,9 @@ public interface HelpInfoService {
 
     void saveHelpInfo(HelpInfo helpInfo);
 
-    void updateHelpInfo(String content,String menuId);
+    void updateHelpInfo(String content, String menuId);
+
+    HelpInfo findByMenuId(String menuId);
+
+    HelpInfo saveOrUpdateHelpInfo(HelpInfo helpInfo);
 }

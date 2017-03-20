@@ -30,7 +30,7 @@
 <!--Layout-->
 <div id="layout1" class="mini-layout" style="width:100%;height:100%;">
     <div class="header" region="north" height="70" showSplit="false" showHeader="false">
-        <h1 style="margin:0;padding:15px;cursor:default;font-family:微软雅黑,黑体,宋体;">资和信管理系统</h1>
+        <h1 style="margin:0;padding:15px;cursor:default;font-family:微软雅黑,黑体,宋体;">资和信帮助管理系统</h1>
 
     </div>
     <div title="south" region="south" showSplit="false" showHeader="false" height="30">
