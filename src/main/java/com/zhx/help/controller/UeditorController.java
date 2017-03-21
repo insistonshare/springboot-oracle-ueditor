@@ -41,8 +41,8 @@ public class UeditorController {
         response.setHeader("Content-Type", "text/html");
         response.setContentType("application/json");
 
-        String basePath = "./target/classes/static/upload/";
-        String visitUrl = "http://"+request.getServerName()+":"+request.getServerPort()+"/upload/";
+        String basePath = "d:/test";
+        String visitUrl = "/files/";
         if (files != null && files.length > 0) {
             for (MultipartFile file : files) {
 

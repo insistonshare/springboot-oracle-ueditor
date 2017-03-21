@@ -10,6 +10,7 @@ import java.util.Date;
  * @since 1.0
  */
 @Entity
+@Table(name = "help_info")
 public class HelpInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
